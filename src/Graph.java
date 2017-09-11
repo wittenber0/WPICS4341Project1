@@ -15,7 +15,7 @@ class Graph {
 			while (scanner.hasNext()) {
 				String s = scanner.next();
 				if (!pound) {
-					if (s.equals("#####")) {
+					if (s.contains("#####")) {
 						pound = true;
 						System.out.println("\nLoading Heuristics: ");
 						
