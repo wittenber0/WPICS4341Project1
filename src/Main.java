@@ -7,5 +7,7 @@ public class Main {
         Searcher searcher = new Searcher();
         searcher.populateFromFile();
         searcher.aStar();
+        searcher.bfsPath();
+        searcher.depthFirstSearch();
     }
 }
