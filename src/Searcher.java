@@ -37,6 +37,7 @@ class Searcher {
 		LinkedList<Node> visited = new LinkedList<>();
 		
 		queue.add(new Path(graph.getStartNode()));
+		printQueue(queue);
 		
 		while (!queue.isEmpty()) {
 			Path pathToExpand = queue.removeFirst();
@@ -67,32 +68,43 @@ class Searcher {
 		}
 		
 		if (successPath != null) {
-			System.out.println("Goal reached!");
+			System.out.println("Goal reached!\n");
 			return true;
 		} else {
+			System.out.println("\n");
 			return !droppedPath;
 		}
 	}
 	
 	void depthFirst() {
+		System.out.println("Depth-First Search");
 		depthLimited(-1);
 	}
 	
 	void iterativeDeepening() {
 		int limit = 0;
+		String limitMessage = "L = ";
+		
+		System.out.println("Iterative Deepening Search");
+		System.out.print(limitMessage);
+		System.out.println(limit);
 		
 		while (!depthLimited(limit)) {
 			limit += 1;
+			System.out.print(limitMessage);
+			System.out.println(limit);
 		}
 	}
 	
 	void breadthFirst() {
+		System.out.println("Breadth-First Search");
 		Path successPath = null;
 		
 		LinkedList<Path> queue = new LinkedList<>();
 		LinkedList<Node> visited = new LinkedList<>();
 		
 		queue.add(new Path(graph.getStartNode()));
+		printQueue(queue);
 		
 		while (!queue.isEmpty()) {
 			Path pathToExpand = queue.removeFirst();
@@ -121,15 +133,18 @@ class Searcher {
 		if (successPath != null) {
 			System.out.println("Goal reached!");
 		}
+		System.out.println("\n");
 	}
 	
 	void uniformCost() {
+		System.out.println("Uniform Cost Search");
 		Path successPath = null;
 		
 		LinkedList<Path> queue = new LinkedList<>();
 		LinkedList<Node> visited = new LinkedList<>();
 		
 		queue.add(new Path(0, graph.getStartNode()));
+		printQueue(queue);
 		
 		while (!queue.isEmpty()) {
 			Path pathToExpand = queue.removeFirst();
@@ -156,9 +171,11 @@ class Searcher {
 		if (successPath != null) {
 			System.out.println("Goal reached!");
 		}
+		System.out.println("\n");
 	}
 	
 	void greedy() {
+		System.out.println("Greedy Search");
 		Path successPath = null;
 		
 		LinkedList<Path> queue = new LinkedList<>();
@@ -166,6 +183,7 @@ class Searcher {
 		
 		Node start = graph.getStartNode();
 		queue.add(new Path(start.heuristic, start));
+		printQueue(queue);
 		
 		while (!queue.isEmpty()) {
 			Path pathToExpand = queue.removeFirst();
@@ -192,9 +210,11 @@ class Searcher {
 		if (successPath != null) {
 			System.out.println("Goal reached!");
 		}
+		System.out.println("\n");
 	}
 	
 	void aStar() {
+		System.out.println("A* Search");
 		Path successPath = null;
 		
 		LinkedList<Path> queue = new LinkedList<>();
@@ -202,6 +222,7 @@ class Searcher {
 		
 		Node start = graph.getStartNode();
 		queue.add(new Path(start.heuristic, start));
+		printQueue(queue);
 		
 		while (!queue.isEmpty()) {
 			Path pathToExpand = queue.removeFirst();
@@ -231,9 +252,11 @@ class Searcher {
 		if (successPath != null) {
 			System.out.println("Goal reached!");
 		}
+		System.out.println("\n");
 	}
 	
 	void hillClimbing() {
+		System.out.println("Hill Climbing Search");
 		Path successPath = null;
 		
 		LinkedList<Path> queue = new LinkedList<>();
@@ -241,6 +264,7 @@ class Searcher {
 		
 		Node start = graph.getStartNode();
 		queue.add(new Path(start.heuristic, start));
+		printQueue(queue);
 		
 		while (!queue.isEmpty()) {
 			Path pathToExpand = queue.removeFirst();
@@ -260,18 +284,24 @@ class Searcher {
 					children.add(new Path(pathToExpand, neighbor.heuristic, neighbor));
 				}
 			}
-			
-			Collections.sort(children);
-			queue.addFirst(children.getFirst());
+			if (!children.isEmpty()) {
+				Collections.sort(children);
+				queue.addFirst(children.getFirst());
+			}
 			printQueue(queue);
 		}
 		
 		if (successPath != null) {
 			System.out.println("Goal reached!");
 		}
+		System.out.println("\n");
 	}
 	
 	void beam(int limit) {
+		System.out.print("Beam Search (w = ");
+		System.out.print(limit);
+		System.out.print(")\n");
+		
 		Path successPath = null;
 		int currentDepth = 0;
 		
@@ -281,6 +311,7 @@ class Searcher {
 		
 		Node start = graph.getStartNode();
 		queue.add(new Path(start.heuristic, start));
+		printQueue(queue);
 		
 		while (!queue.isEmpty()) {
 			Path pathToExpand = queue.removeFirst();
@@ -319,19 +350,23 @@ class Searcher {
 		if (successPath != null) {
 			System.out.println("Goal reached!");
 		}
+		System.out.println("\n");
 	}
 	
 	private void printQueue(LinkedList<Path> queue) {
-		String message = "\t";
-		
-		message = message.concat("\t [");
-		message = message.concat(queue.getFirst().toString());
-		for (int index = 1; index < queue.size(); index += 1) {
-			message = message.concat(", ");
-			message = message.concat(queue.get(index).toString());
+		if (!queue.isEmpty()) {
+			String message = "\t\t\t";
+			message = message.concat(queue.getFirst().getNextNode().toString());
+			
+			message = message.concat("\t [");
+			message = message.concat(queue.getFirst().toString());
+			for (int index = 1; index < queue.size(); index++) {
+				message = message.concat(", ");
+				message = message.concat(queue.get(index).toString());
+			}
+			message = message.concat("]");
+			
+			System.out.println(message);
 		}
-		message = message.concat("]");
-		
-		System.out.println(message);
 	}
 }

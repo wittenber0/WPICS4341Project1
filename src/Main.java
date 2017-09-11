@@ -3,7 +3,7 @@
  */
 public class Main {
     public static void main(String[] args){
-	    Searcher searcher = new Searcher(new Graph(args[1]));
+	    Searcher searcher = new Searcher(new Graph(args[0]));
 	    searcher.generalSearch();
     }
 }
