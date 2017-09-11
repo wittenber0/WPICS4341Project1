@@ -3,7 +3,7 @@ import java.util.LinkedList;
 public class Path implements Comparable<Path> {
 	private boolean informed;
 	double value;
-	private LinkedList<Node> trace;
+	private LinkedList<Node> trace = new LinkedList<Node>();
 	
 	Path(Node firstNode) {
 		informed = false;
