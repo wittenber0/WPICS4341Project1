@@ -11,12 +11,13 @@ class Graph {
 		try {
 			Scanner scanner = new Scanner(new File(filename)).useDelimiter("\n");
 			boolean pound = false;
+			System.out.println("\nLoading Nodes and Edges: ");
 			while (scanner.hasNext()) {
 				String s = scanner.next();
 				if (!pound) {
 					if (s.equals("#####")) {
 						pound = true;
-						System.out.println("Loading Heuristics: ");
+						System.out.println("\nLoading Heuristics: ");
 						
 					} else {
 						String[] edgeString = s.split(" ");
@@ -53,7 +54,7 @@ class Graph {
 					}
 				}
 			}
-			
+			System.out.println("\n");
 		} catch(Exception e) {
 			e.printStackTrace();
 		}

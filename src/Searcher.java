@@ -18,6 +18,7 @@ class Searcher {
 	}
 	
 	void generalSearch() {
+		System.out.println("Running General Search: \n");
 		depthFirst();
 		breadthFirst();
 		depthLimited(2);
@@ -71,7 +72,7 @@ class Searcher {
 			System.out.println("Goal reached!\n");
 			return true;
 		} else {
-			System.out.println("\n");
+			System.out.println("Goal not reached.\n");
 			return !droppedPath;
 		}
 	}
@@ -138,9 +139,10 @@ class Searcher {
 		}
 		
 		if (successPath != null) {
-			System.out.println("Goal reached!");
+			System.out.println("Goal reached!\n");
+		} else {
+			System.out.println("Goal not reached.\n");
 		}
-		System.out.println("\n");
 	}
 	
 	void uniformCost() {
@@ -176,9 +178,10 @@ class Searcher {
 		}
 		
 		if (successPath != null) {
-			System.out.println("Goal reached!");
+			System.out.println("Goal reached!\n");
+		} else {
+			System.out.println("Goal not reached.\n");
 		}
-		System.out.println("\n");
 	}
 	
 	void greedy() {
@@ -215,9 +218,10 @@ class Searcher {
 		}
 		
 		if (successPath != null) {
-			System.out.println("Goal reached!");
+			System.out.println("Goal reached!\n");
+		} else {
+			System.out.println("Goal not reached.\n");
 		}
-		System.out.println("\n");
 	}
 	
 	void aStar() {
@@ -257,9 +261,10 @@ class Searcher {
 		}
 		
 		if (successPath != null) {
-			System.out.println("Goal reached!");
+			System.out.println("Goal reached!\n");
+		} else {
+			System.out.println("Goal not reached.\n");
 		}
-		System.out.println("\n");
 	}
 	
 	void hillClimbing() {
@@ -299,9 +304,10 @@ class Searcher {
 		}
 		
 		if (successPath != null) {
-			System.out.println("Goal reached!");
+			System.out.println("Goal reached!\n");
+		} else {
+			System.out.println("Goal not reached.\n");
 		}
-		System.out.println("\n");
 	}
 	
 	void beam(int limit) {
@@ -359,9 +365,10 @@ class Searcher {
 		}
 		
 		if (successPath != null) {
-			System.out.println("Goal reached!");
+			System.out.println("Goal reached!\n");
+		} else {
+			System.out.println("Goal not reached.\n");
 		}
-		System.out.println("\n");
 	}
 	
 	private void printQueue(LinkedList<Path> queue) {
