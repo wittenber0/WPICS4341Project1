@@ -1,8 +1,8 @@
 import java.util.LinkedList;
 
-public class Path {
+public class Path implements Comparable<Path> {
 	private boolean informed;
-	private double value;
+	double value;
 	private LinkedList<Node> trace;
 	
 	Path(Node firstNode) {
@@ -66,4 +66,13 @@ public class Path {
 		return result;
 	}
 	
+	public int compareTo(Path other) {
+		if (value != other.value) {
+			return -1;
+		} else if (value > other.value) {
+			return 1;
+		} else {
+			return getNextNode().name.compareTo(other.getNextNode().name);
+		}
+	}
 }
