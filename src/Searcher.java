@@ -340,15 +340,19 @@ class Searcher {
 			
 			if (queue.getFirst().getDepth() > currentDepth) {
 				currentDepth += 1;
-				pruningList = queue;
-				Collections.sort(pruningList);
 				
-				for (int i = 0; i < limit; i++) {
-					pruningList.removeFirst();
-				}
-				
-				for (Path pathToPrune : pruningList) {
-					queue.remove(pathToPrune);
+				if (queue.size() > limit) {
+					pruningList = new LinkedList<>();
+					pruningList.addAll(queue);
+					Collections.sort(pruningList);
+					
+					for (int i = 0; i < limit; i++) {
+						pruningList.removeFirst();
+					}
+					
+					for (Path pathToPrune : pruningList) {
+						queue.remove(pathToPrune);
+					}
 				}
 			}
 			printQueue(queue);
