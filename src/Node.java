@@ -18,14 +18,6 @@ public class Node {
         return this.name;
     }
 	
-	public boolean hasBetterHeuristicThan(Node other) {
-		return this.heuristic < other.heuristic;
-	}
-	
-	public boolean equals(Node other) {
-		return this.name.equals(other.name);
-	}
-	
 	boolean isGoal() {
 		return name.equals("G");
 	}
