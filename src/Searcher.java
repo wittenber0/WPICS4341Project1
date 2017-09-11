@@ -174,34 +174,43 @@ public class Searcher {
         return bestPath;
     }
 
-    public LinkedList<Node> bfsPath(){
-        System.out.println("Starting Breadth First Search");
-        Queue<Node> seen = new LinkedList<Node>();
-        LinkedList<Node> openSet = new LinkedList<Node>();
+    public LinkedList<Node> breadthFirstSearch(){
+        System.out.println("\nStarting Breadth First Search");
+        LinkedList<LinkedList<Node>> que = new LinkedList<LinkedList<Node>>();
+        LinkedList<Node> visited = new LinkedList<Node>();
+
 
         Node start = getNodeByName("S");
         Node goal = getNodeByName("G");
 
-        HashMap<Node, Node> cameFrom = new HashMap<>();
-
-        Node current;
-
-        openSet.add(start);
-        seen.add(start);
-
-        while (!seen.isEmpty()) {
-            current = seen.remove();
-            if (current == goal) {
-                return reconstructPath(cameFrom, current);
-            }
-            for (Object o : current.adjacents.keySet()) {
-                Node n = (Node) o;
-                if (!openSet.contains(n)) {
-                    openSet.add(n);
-                    cameFrom.put(n, current);
-                    seen.add(n);
+        LinkedList<Node> startQ = new LinkedList<Node>();
+        startQ.add(start);
+        que.add(startQ);
+        while(!que.isEmpty()){
+            LinkedList<Node> current = que.getFirst();
+            if(!visited.contains(current)) {
+                System.out.println(current.getFirst() + "  " + que);
+                visited.add(current.getFirst());
+                if (current.getFirst() == goal) {
+                    System.out.println(current);
+                    return current;
                 }
+                if (current.getFirst().adjacents.keySet().size() > 0) {
+                    que.remove(current);
+                    for (Object o : current.getFirst().adjacents.keySet()) {
+                        Node n = (Node) o;
+                        if(!visited.contains(n)) {
+                            LinkedList<Node> nextQ = new LinkedList<Node>();
+                            nextQ.add(n);
+                            nextQ.addAll(current);
+                            que.add(nextQ);
+                        }
+                    }
+                }
+            }else{
+                que.remove(current);
             }
+
         }
 
         return null;
@@ -209,7 +218,7 @@ public class Searcher {
 
 
     public LinkedList<Node> depthFirstSearch(){
-        System.out.println("Starting Depth First Search22222");
+        System.out.println("\nStarting Depth First Search");
         LinkedList<Node> path = new LinkedList<>();
         LinkedList<LinkedList<Node>> que = new LinkedList<LinkedList<Node>>();
         LinkedList<Node> visited = new LinkedList<Node>();
@@ -224,6 +233,7 @@ public class Searcher {
         while(!que.isEmpty()){
             LinkedList<Node> current = que.getFirst();
             if(!visited.contains(current)) {
+                System.out.println(current.getFirst() + "  " + que);
                 visited.add(current.getFirst());
                 if (current.getFirst() == goal) {
                     System.out.println(current);
@@ -250,4 +260,53 @@ public class Searcher {
         return null;
     }
 
+    public LinkedList<Node> iterativeDeepeningSearch(){
+        System.out.println("\nStarting Iterative Deepening Search");
+        boolean goalFound = false;
+        Node start = getNodeByName("S");
+        Node goal = getNodeByName("G");
+
+        int depth = 1;
+        while(!goalFound) {
+
+            LinkedList<LinkedList<Node>> que = new LinkedList<LinkedList<Node>>();
+            LinkedList<Node> visited = new LinkedList<Node>();
+            LinkedList<Node> startQ = new LinkedList<Node>();
+            startQ.add(start);
+            que.add(startQ);
+
+            while (!que.isEmpty()) {
+                LinkedList<Node> current = que.getFirst();
+                System.out.println(current.getFirst() + "  " + que);
+                if (!visited.contains(current)) {
+                    visited.add(current.getFirst());
+                    if (current.getFirst() == goal) {
+                        goalFound = true;
+                        System.out.println(current);
+                        return current;
+                    }
+                    if (current.getFirst().adjacents.keySet().size() > 0) {
+                        que.remove(current);
+                        for (Object o : current.getFirst().adjacents.keySet()) {
+                            Node n = (Node) o;
+                            if (!visited.contains(n) && current.size()<depth) {
+                                LinkedList<Node> nextQ = new LinkedList<Node>();
+                                nextQ.add(n);
+                                nextQ.addAll(current);
+                                que.add(0, nextQ);
+                            }
+                        }
+                    }
+                } else {
+                    que.remove(current);
+                }
+
+            }
+
+            depth++;
+            System.out.println("Depth:" +depth);
+        }
+
+        return null;
+    }
 }
