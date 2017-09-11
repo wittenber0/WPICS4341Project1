@@ -6,35 +6,33 @@ public class Path implements Comparable<Path> {
 	private LinkedList<Node> trace;
 	
 	Path(Node firstNode) {
-		this.informed = false;
-		this.value = 0;
-		this.trace = new LinkedList<>();
-		addNode(firstNode);
+		informed = false;
+		value = 0;
+		trace = new LinkedList<>();
+		trace.push(firstNode);
 	}
 	
 	Path(double value, Node firstNode) {
-		this.informed = true;
+		informed = true;
 		this.value = value;
-		this.trace = new LinkedList<>();
-		addNode(firstNode);
+		trace = new LinkedList<>();
+		trace.push(firstNode);
 	}
 	
 	Path(Path previous, Node newNode) {
 		this.informed = previous.informed;
-		this.value = 0;
-		this.trace = previous.trace;
-		addNode(newNode);
+		value = 0;
+		trace = new LinkedList<>();
+		trace.addAll(previous.trace);
+		trace.push(newNode);
 	}
 	
 	Path(Path previous, double value, Node newNode) {
 		this.informed = previous.informed;
 		this.value = value;
-		this.trace = previous.trace;
-		addNode(newNode);
-	}
-	
-	private void addNode(Node newNode) {
-		trace.addFirst(newNode);
+		trace = new LinkedList<>();
+		trace.addAll(previous.trace);
+		trace.push(newNode);
 	}
 	
 	Node getNextNode() {
