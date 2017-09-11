@@ -67,7 +67,7 @@ public class Path implements Comparable<Path> {
 	}
 	
 	public int compareTo(Path other) {
-		if (value != other.value) {
+		if (value < other.value) {
 			return -1;
 		} else if (value > other.value) {
 			return 1;
