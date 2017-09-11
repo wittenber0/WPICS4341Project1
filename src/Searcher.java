@@ -29,7 +29,7 @@ class Searcher {
 		beam(2);
 	}
 	
-	boolean depthLimited(int limit) {
+	private boolean depthFirstHelper(int limit) {
 		Path successPath = null;
 		boolean droppedPath = false;
 		
@@ -78,7 +78,14 @@ class Searcher {
 	
 	void depthFirst() {
 		System.out.println("Depth-First Search");
-		depthLimited(-1);
+		depthFirstHelper(-1);
+	}
+	
+	void depthLimited(int limit) {
+		System.out.print("Depth-Limited Search (l = ");
+		System.out.print(limit);
+		System.out.print(")\n");
+		depthFirstHelper(2);
 	}
 	
 	void iterativeDeepening() {
@@ -89,7 +96,7 @@ class Searcher {
 		System.out.print(limitMessage);
 		System.out.println(limit);
 		
-		while (!depthLimited(limit)) {
+		while (!depthFirstHelper(limit)) {
 			limit += 1;
 			System.out.print(limitMessage);
 			System.out.println(limit);
