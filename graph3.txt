@@ -1,0 +1,25 @@
+S M 15
+S A 1
+M G 15
+A I 5
+A C 2
+A B 50
+C E 1
+C D 10
+I J 4
+J K 50
+J L 5
+K L 5
+L M 35
+#####
+S 22
+M 14
+I 10
+J 8
+K 6
+L 4
+E 18
+C 16
+D 20
+A 12
+B 24
