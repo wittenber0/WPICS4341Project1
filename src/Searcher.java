@@ -51,6 +51,7 @@ class Searcher {
 			
 			if (limit >= 0 && pathToExpand.getDepth() >= limit) {
 				droppedPath = true;
+				printQueue(queue);
 				continue;
 			}
 			
