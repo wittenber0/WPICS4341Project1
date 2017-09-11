@@ -3,9 +3,12 @@
  */
 public class Main {
     public static void main(String[] args){
-        System.out.println("Helllo");
-        Searcher searcher = new Searcher();
-        searcher.populateFromFile();
-        searcher.aStar();
+	    Searcher searcher = new Searcher(new Graph(args[1]));
+	
+	    searcher.aStar();
+	    searcher.depthFirst();
+	    searcher.breadthFirst();
+	    searcher.depthLimited(2);
+	    searcher.iterativeDeepening();
     }
 }
