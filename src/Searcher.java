@@ -63,6 +63,7 @@ class Searcher {
 			}
 			Collections.sort(pathsToAdd);
 			queue.addAll(0, pathsToAdd);
+			printQueue(queue);
 		}
 		
 		if (successPath != null) {
@@ -114,6 +115,7 @@ class Searcher {
 			
 			Collections.sort(pathsToAdd);
 			queue.addAll(pathsToAdd);
+			printQueue(queue);
 		}
 		
 		if (successPath != null) {
@@ -148,6 +150,7 @@ class Searcher {
 			}
 			
 			Collections.sort(queue);
+			printQueue(queue);
 		}
 		
 		if (successPath != null) {
@@ -183,6 +186,7 @@ class Searcher {
 			}
 			
 			Collections.sort(queue);
+			printQueue(queue);
 		}
 		
 		if (successPath != null) {
@@ -221,6 +225,7 @@ class Searcher {
 			}
 			
 			Collections.sort(queue);
+			printQueue(queue);
 		}
 		
 		if (successPath != null) {
@@ -258,6 +263,7 @@ class Searcher {
 			
 			Collections.sort(children);
 			queue.addFirst(children.getFirst());
+			printQueue(queue);
 		}
 		
 		if (successPath != null) {
@@ -307,10 +313,25 @@ class Searcher {
 					queue.remove(pathToPrune);
 				}
 			}
+			printQueue(queue);
 		}
 		
 		if (successPath != null) {
 			System.out.println("Goal reached!");
 		}
+	}
+	
+	private void printQueue(LinkedList<Path> queue) {
+		String message = "\t";
+		
+		message = message.concat("\t [");
+		message = message.concat(queue.getFirst().toString());
+		for (int index = 1; index < queue.size(); index += 1) {
+			message = message.concat(", ");
+			message = message.concat(queue.get(index).toString());
+		}
+		message = message.concat("]");
+		
+		System.out.println(message);
 	}
 }

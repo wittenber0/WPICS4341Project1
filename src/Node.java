@@ -10,12 +10,12 @@ public class Node {
 	
 	Node(String name) {
 		this.name = name;
-		this.heuristic = 0;
+		heuristic = 0;
 		neighbors = new HashMap<>();
 	}
 
     public String toString(){
-        return this.name;
+	    return name;
     }
 	
 	boolean isGoal() {
