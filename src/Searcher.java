@@ -266,6 +266,51 @@ class Searcher {
 	}
 	
 	void beam(int limit) {
-	
+		Path successPath = null;
+		int currentDepth = 0;
+		
+		LinkedList<Path> queue = new LinkedList<>();
+		LinkedList<Node> visited = new LinkedList<>();
+		LinkedList<Path> pruningList;
+		
+		Node start = graph.getStartNode();
+		queue.add(new Path(start.heuristic, start));
+		
+		while (!queue.isEmpty()) {
+			Path pathToExpand = queue.removeFirst();
+			Node nodeToExpand = pathToExpand.getNextNode();
+			
+			if (nodeToExpand.isGoal()) {
+				successPath = pathToExpand;
+				break;
+			}
+			
+			visited.add(nodeToExpand);
+			Set<Node> neighbors = nodeToExpand.neighbors.keySet();
+			
+			for (Node neighbor : neighbors) {
+				if (!visited.contains(neighbor)) {
+					queue.add(new Path(pathToExpand, neighbor.heuristic, neighbor));
+				}
+			}
+			
+			if (queue.getFirst().getDepth() > currentDepth) {
+				currentDepth += 1;
+				pruningList = queue;
+				Collections.sort(pruningList);
+				
+				for (int i = 0; i < limit; i++) {
+					pruningList.removeFirst();
+				}
+				
+				for (Path pathToPrune : pruningList) {
+					queue.remove(pathToPrune);
+				}
+			}
+		}
+		
+		if (successPath != null) {
+			System.out.println("Goal reached!");
+		}
 	}
 }
