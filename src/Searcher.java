@@ -132,7 +132,7 @@ class Searcher {
 			Collections.sort(pathsToAdd);
 			queue = addToQueue(queue, pathsToAdd, method);
 			
-			if (method == SearchType.BEAM && queue.getFirst().getDepth() > beamDepth) {
+			if (method == SearchType.BEAM && queue.getFirst().getDepth() > beamDepth && queue.size() > 2) {
 				beamDepth += 1;
 				
 				beamPruningList = new LinkedList<>();
