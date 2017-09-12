@@ -1,0 +1,178 @@
+objc[2485]: Class JavaLaunchHelper is implemented in both /Library/Java/JavaVirtualMachines/jdk1.8.0_101.jdk/Contents/Home/bin/java (0x10f3044c0) and /Library/Java/JavaVirtualMachines/jdk1.8.0_101.jdk/Contents/Home/jre/lib/libinstrument.dylib (0x10f3cc4e0). One of the two will be used. Which one is undefined.
+
+Loading Nodes and Edges: 
+Created node O
+Created node Z
+Connected node O to node Z with cost 71.0
+Created node A
+Connected node O to node A with cost 151.0
+Created node S
+Connected node Z to node S with cost 75.0
+Connected node S to node A with cost 140.0
+Created node T
+Connected node S to node T with cost 118.0
+Created node F
+Connected node A to node F with cost 99.0
+Created node R
+Connected node A to node R with cost 80.0
+Created node L
+Connected node T to node L with cost 111.0
+Created node M
+Connected node L to node M with cost 70.0
+Created node D
+Connected node M to node D with cost 75.0
+Created node C
+Connected node D to node C with cost 120.0
+Connected node R to node C with cost 146.0
+Created node P
+Connected node R to node P with cost 97.0
+Connected node C to node P with cost 138.0
+Created node G
+Connected node F to node G with cost 211.0
+Connected node P to node G with cost 101.0
+Created node B
+Connected node G to node B with cost 90.0
+Created node U
+Connected node G to node U with cost 85.0
+Created node H
+Connected node U to node H with cost 98.0
+Created node V
+Connected node U to node V with cost 142.0
+Created node E
+Connected node H to node E with cost 86.0
+Created node I
+Connected node V to node I with cost 92.0
+Created node N
+Connected node I to node N with cost 87.0
+
+Loading Heuristics: 
+Set node A to have heuristic value 253.0
+Set node B to have heuristic value 77.0
+Set node C to have heuristic value 160.0
+Set node D to have heuristic value 242.0
+Set node E to have heuristic value 161.0
+Set node F to have heuristic value 178.0
+Set node H to have heuristic value 151.0
+Set node I to have heuristic value 226.0
+Set node L to have heuristic value 244.0
+Set node M to have heuristic value 241.0
+Set node N to have heuristic value 234.0
+Set node O to have heuristic value 380.0
+Set node P to have heuristic value 98.0
+Set node R to have heuristic value 193.0
+Set node S to have heuristic value 366.0
+Set node T to have heuristic value 329.0
+Set node U to have heuristic value 80.0
+Set node V to have heuristic value 199.0
+Set node Z to have heuristic value 374.0
+
+
+Depth-First Search: 
+			S	 [<S>]
+			A	 [<A, S>, <T, S>, <Z, S>]
+			F	 [<F, A, S>, <O, A, S>, <R, A, S>, <T, S>, <Z, S>]
+			G	 [<G, F, A, S>, <O, A, S>, <R, A, S>, <T, S>, <Z, S>]
+Goal reached!
+
+Breadth-First Search: 
+			S	 [<S>]
+			A	 [<A, S>, <T, S>, <Z, S>]
+			T	 [<T, S>, <Z, S>, <F, A, S>, <O, A, S>, <R, A, S>]
+			Z	 [<Z, S>, <F, A, S>, <O, A, S>, <R, A, S>, <L, T, S>]
+			F	 [<F, A, S>, <O, A, S>, <R, A, S>, <L, T, S>, <O, Z, S>]
+			O	 [<O, A, S>, <R, A, S>, <L, T, S>, <O, Z, S>, <G, F, A, S>]
+			R	 [<R, A, S>, <L, T, S>, <O, Z, S>, <G, F, A, S>]
+			L	 [<L, T, S>, <O, Z, S>, <G, F, A, S>, <C, R, A, S>, <P, R, A, S>]
+			O	 [<O, Z, S>, <G, F, A, S>, <C, R, A, S>, <P, R, A, S>, <M, L, T, S>]
+			G	 [<G, F, A, S>, <C, R, A, S>, <P, R, A, S>, <M, L, T, S>]
+Goal reached!
+
+Depth-Limited Search (l = 2): 
+			S	 [<S>]
+			A	 [<A, S>, <T, S>, <Z, S>]
+			F	 [<F, A, S>, <O, A, S>, <R, A, S>, <T, S>, <Z, S>]
+			O	 [<O, A, S>, <R, A, S>, <T, S>, <Z, S>]
+			R	 [<R, A, S>, <T, S>, <Z, S>]
+			T	 [<T, S>, <Z, S>]
+			L	 [<L, T, S>, <Z, S>]
+			Z	 [<Z, S>]
+			O	 [<O, Z, S>]
+Goal could not be reached.
+
+Iterative Deepening Search: 
+L = 0
+			S	 [<S>]
+
+L = 1
+			S	 [<S>]
+			A	 [<A, S>, <T, S>, <Z, S>]
+			T	 [<T, S>, <Z, S>]
+			Z	 [<Z, S>]
+
+L = 2
+			S	 [<S>]
+			A	 [<A, S>, <T, S>, <Z, S>]
+			F	 [<F, A, S>, <O, A, S>, <R, A, S>, <T, S>, <Z, S>]
+			O	 [<O, A, S>, <R, A, S>, <T, S>, <Z, S>]
+			R	 [<R, A, S>, <T, S>, <Z, S>]
+			T	 [<T, S>, <Z, S>]
+			L	 [<L, T, S>, <Z, S>]
+			Z	 [<Z, S>]
+			O	 [<O, Z, S>]
+
+L = 3
+			S	 [<S>]
+			A	 [<A, S>, <T, S>, <Z, S>]
+			F	 [<F, A, S>, <O, A, S>, <R, A, S>, <T, S>, <Z, S>]
+			G	 [<G, F, A, S>, <O, A, S>, <R, A, S>, <T, S>, <Z, S>]
+Goal reached!
+
+Uniform-Cost Search: 
+			S	 [0.0<S>]
+			Z	 [75.0<Z, S>, 118.0<T, S>, 140.0<A, S>]
+			T	 [118.0<T, S>, 140.0<A, S>, 146.0<O, Z, S>]
+			A	 [140.0<A, S>, 146.0<O, Z, S>, 229.0<L, T, S>]
+			O	 [146.0<O, Z, S>, 220.0<R, A, S>, 229.0<L, T, S>, 239.0<F, A, S>, 291.0<O, A, S>]
+			R	 [220.0<R, A, S>, 229.0<L, T, S>, 239.0<F, A, S>, 291.0<O, A, S>]
+			L	 [229.0<L, T, S>, 239.0<F, A, S>, 291.0<O, A, S>, 317.0<P, R, A, S>, 366.0<C, R, A, S>]
+			F	 [239.0<F, A, S>, 291.0<O, A, S>, 299.0<M, L, T, S>, 317.0<P, R, A, S>, 366.0<C, R, A, S>]
+			O	 [291.0<O, A, S>, 299.0<M, L, T, S>, 317.0<P, R, A, S>, 366.0<C, R, A, S>, 450.0<G, F, A, S>]
+			M	 [299.0<M, L, T, S>, 317.0<P, R, A, S>, 366.0<C, R, A, S>, 450.0<G, F, A, S>]
+			P	 [317.0<P, R, A, S>, 366.0<C, R, A, S>, 374.0<D, M, L, T, S>, 450.0<G, F, A, S>]
+			C	 [366.0<C, R, A, S>, 374.0<D, M, L, T, S>, 418.0<G, P, R, A, S>, 450.0<G, F, A, S>, 455.0<C, P, R, A, S>]
+			D	 [374.0<D, M, L, T, S>, 418.0<G, P, R, A, S>, 450.0<G, F, A, S>, 455.0<C, P, R, A, S>, 486.0<D, C, R, A, S>]
+			G	 [418.0<G, P, R, A, S>, 450.0<G, F, A, S>, 455.0<C, P, R, A, S>, 486.0<D, C, R, A, S>]
+Goal reached!
+
+Greedy Search: 
+			S	 [366.0<S>]
+			A	 [253.0<A, S>, 329.0<T, S>, 374.0<Z, S>]
+			F	 [178.0<F, A, S>, 193.0<R, A, S>, 329.0<T, S>, 374.0<Z, S>, 380.0<O, A, S>]
+			G	 [0.0<G, F, A, S>, 193.0<R, A, S>, 329.0<T, S>, 374.0<Z, S>, 380.0<O, A, S>]
+Goal reached!
+
+A* Search: 
+			S	 [366.0<S>]
+			A	 [393.0<A, S>, 447.0<T, S>, 449.0<Z, S>]
+			R	 [413.0<R, A, S>, 417.0<F, A, S>, 447.0<T, S>, 449.0<Z, S>, 671.0<O, A, S>]
+			P	 [415.0<P, R, A, S>, 417.0<F, A, S>, 447.0<T, S>, 449.0<Z, S>, 526.0<C, R, A, S>, 671.0<O, A, S>]
+			F	 [417.0<F, A, S>, 418.0<G, P, R, A, S>, 447.0<T, S>, 449.0<Z, S>, 526.0<C, R, A, S>, 615.0<C, P, R, A, S>, 671.0<O, A, S>]
+			G	 [418.0<G, P, R, A, S>, 447.0<T, S>, 449.0<Z, S>, 450.0<G, F, A, S>, 526.0<C, R, A, S>, 615.0<C, P, R, A, S>, 671.0<O, A, S>]
+Goal reached!
+
+Hill Climbing Search: 
+			S	 [366.0<S>]
+			A	 [253.0<A, S>]
+			F	 [178.0<F, A, S>]
+			G	 [0.0<G, F, A, S>]
+Goal reached!
+
+Beam Search (w = 2):
+			S	 [366.0<S>]
+			A	 [253.0<A, S>, 329.0<T, S>]
+			T	 [329.0<T, S>, 178.0<F, A, S>, 193.0<R, A, S>, 380.0<O, A, S>]
+			F	 [178.0<F, A, S>, 193.0<R, A, S>]
+			R	 [193.0<R, A, S>, 0.0<G, F, A, S>]
+			G	 [0.0<G, F, A, S>, 98.0<P, R, A, S>]
+Goal reached!
+

@@ -1,0 +1,166 @@
+objc[2481]: Class JavaLaunchHelper is implemented in both /Library/Java/JavaVirtualMachines/jdk1.8.0_101.jdk/Contents/Home/bin/java (0x108c1f4c0) and /Library/Java/JavaVirtualMachines/jdk1.8.0_101.jdk/Contents/Home/jre/lib/libinstrument.dylib (0x108ce74e0). One of the two will be used. Which one is undefined.
+
+Loading Nodes and Edges: 
+Created node S
+Created node A
+Connected node S to node A with cost 3.0
+Created node D
+Connected node S to node D with cost 4.0
+Created node B
+Connected node A to node B with cost 4.0
+Created node C
+Connected node B to node C with cost 4.0
+Connected node A to node D with cost 5.0
+Created node E
+Connected node B to node E with cost 5.0
+Connected node D to node E with cost 2.0
+Created node F
+Connected node F to node E with cost 4.0
+Created node G
+Connected node G to node F with cost 3.0
+
+Loading Heuristics: 
+Set node S to have heuristic value 11.0
+Set node A to have heuristic value 10.4
+Set node D to have heuristic value 8.9
+Set node B to have heuristic value 6.7
+Set node E to have heuristic value 6.9
+Set node C to have heuristic value 4.0
+Set node F to have heuristic value 3.0
+
+
+Depth-First Search: 
+			S	 [<S>]
+			A	 [<A, S>, <D, S>]
+			B	 [<B, A, S>, <D, A, S>, <D, S>]
+			C	 [<C, B, A, S>, <E, B, A, S>, <D, A, S>, <D, S>]
+			E	 [<E, B, A, S>, <D, A, S>, <D, S>]
+			D	 [<D, E, B, A, S>, <F, E, B, A, S>, <D, A, S>, <D, S>]
+			F	 [<F, E, B, A, S>, <D, A, S>, <D, S>]
+			G	 [<G, F, E, B, A, S>, <D, A, S>, <D, S>]
+Goal reached!
+
+Breadth-First Search: 
+			S	 [<S>]
+			A	 [<A, S>, <D, S>]
+			D	 [<D, S>, <B, A, S>, <D, A, S>]
+			B	 [<B, A, S>, <D, A, S>, <E, D, S>]
+			D	 [<D, A, S>, <E, D, S>, <C, B, A, S>, <E, B, A, S>]
+			E	 [<E, D, S>, <C, B, A, S>, <E, B, A, S>, <E, D, A, S>]
+			C	 [<C, B, A, S>, <E, B, A, S>, <E, D, A, S>, <F, E, D, S>]
+			E	 [<E, B, A, S>, <E, D, A, S>, <F, E, D, S>]
+			E	 [<E, D, A, S>, <F, E, D, S>, <F, E, B, A, S>]
+			F	 [<F, E, D, S>, <F, E, B, A, S>, <F, E, D, A, S>]
+			F	 [<F, E, B, A, S>, <F, E, D, A, S>, <G, F, E, D, S>]
+			F	 [<F, E, D, A, S>, <G, F, E, D, S>, <G, F, E, B, A, S>]
+			G	 [<G, F, E, D, S>, <G, F, E, B, A, S>, <G, F, E, D, A, S>]
+Goal reached!
+
+Depth-Limited Search (l = 2): 
+			S	 [<S>]
+			A	 [<A, S>, <D, S>]
+			B	 [<B, A, S>, <D, A, S>, <D, S>]
+			D	 [<D, A, S>, <D, S>]
+			D	 [<D, S>]
+			E	 [<E, D, S>]
+Goal could not be reached.
+
+Iterative Deepening Search: 
+L = 0
+			S	 [<S>]
+
+L = 1
+			S	 [<S>]
+			A	 [<A, S>, <D, S>]
+			D	 [<D, S>]
+
+L = 2
+			S	 [<S>]
+			A	 [<A, S>, <D, S>]
+			B	 [<B, A, S>, <D, A, S>, <D, S>]
+			D	 [<D, A, S>, <D, S>]
+			D	 [<D, S>]
+			E	 [<E, D, S>]
+
+L = 3
+			S	 [<S>]
+			A	 [<A, S>, <D, S>]
+			B	 [<B, A, S>, <D, A, S>, <D, S>]
+			C	 [<C, B, A, S>, <E, B, A, S>, <D, A, S>, <D, S>]
+			E	 [<E, B, A, S>, <D, A, S>, <D, S>]
+			D	 [<D, A, S>, <D, S>]
+			E	 [<E, D, A, S>, <D, S>]
+			D	 [<D, S>]
+			E	 [<E, D, S>]
+			F	 [<F, E, D, S>]
+
+L = 4
+			S	 [<S>]
+			A	 [<A, S>, <D, S>]
+			B	 [<B, A, S>, <D, A, S>, <D, S>]
+			C	 [<C, B, A, S>, <E, B, A, S>, <D, A, S>, <D, S>]
+			E	 [<E, B, A, S>, <D, A, S>, <D, S>]
+			D	 [<D, E, B, A, S>, <F, E, B, A, S>, <D, A, S>, <D, S>]
+			F	 [<F, E, B, A, S>, <D, A, S>, <D, S>]
+			D	 [<D, A, S>, <D, S>]
+			D	 [<D, S>]
+
+L = 5
+			S	 [<S>]
+			A	 [<A, S>, <D, S>]
+			B	 [<B, A, S>, <D, A, S>, <D, S>]
+			C	 [<C, B, A, S>, <E, B, A, S>, <D, A, S>, <D, S>]
+			E	 [<E, B, A, S>, <D, A, S>, <D, S>]
+			D	 [<D, E, B, A, S>, <F, E, B, A, S>, <D, A, S>, <D, S>]
+			F	 [<F, E, B, A, S>, <D, A, S>, <D, S>]
+			G	 [<G, F, E, B, A, S>, <D, A, S>, <D, S>]
+Goal reached!
+
+Uniform-Cost Search: 
+			S	 [0.0<S>]
+			A	 [3.0<A, S>, 4.0<D, S>]
+			D	 [4.0<D, S>, 7.0<B, A, S>, 8.0<D, A, S>]
+			E	 [6.0<E, D, S>, 7.0<B, A, S>, 8.0<D, A, S>]
+			B	 [7.0<B, A, S>, 8.0<D, A, S>, 10.0<F, E, D, S>, 11.0<B, E, D, S>]
+			D	 [8.0<D, A, S>, 10.0<F, E, D, S>, 11.0<B, E, D, S>, 11.0<C, B, A, S>]
+			F	 [10.0<F, E, D, S>, 11.0<B, E, D, S>, 11.0<C, B, A, S>]
+			B	 [11.0<B, E, D, S>, 11.0<C, B, A, S>, 13.0<G, F, E, D, S>]
+			C	 [11.0<C, B, A, S>, 13.0<G, F, E, D, S>, 15.0<C, B, E, D, S>]
+			G	 [13.0<G, F, E, D, S>, 15.0<C, B, E, D, S>]
+Goal reached!
+
+Greedy Search: 
+			S	 [11.0<S>]
+			D	 [8.9<D, S>, 10.4<A, S>]
+			E	 [6.9<E, D, S>, 10.4<A, S>, 10.4<A, D, S>]
+			F	 [3.0<F, E, D, S>, 6.7<B, E, D, S>, 10.4<A, S>, 10.4<A, D, S>]
+			G	 [0.0<G, F, E, D, S>, 6.7<B, E, D, S>, 10.4<A, S>, 10.4<A, D, S>]
+Goal reached!
+
+A* Search: 
+			S	 [11.0<S>]
+			D	 [12.9<D, S>, 13.4<A, S>]
+			E	 [12.9<E, D, S>, 13.4<A, S>, 19.4<A, D, S>]
+			F	 [13.0<F, E, D, S>, 13.4<A, S>, 17.7<B, E, D, S>, 19.4<A, D, S>]
+			G	 [13.0<G, F, E, D, S>, 13.4<A, S>, 17.7<B, E, D, S>, 19.4<A, D, S>]
+Goal reached!
+
+Hill Climbing Search: 
+			S	 [11.0<S>]
+			D	 [8.9<D, S>]
+			E	 [6.9<E, D, S>]
+			F	 [3.0<F, E, D, S>]
+			G	 [0.0<G, F, E, D, S>]
+Goal reached!
+
+Beam Search (w = 2):
+			S	 [11.0<S>]
+			D	 [8.9<D, S>, 10.4<A, S>]
+			A	 [10.4<A, S>, 6.9<E, D, S>]
+			E	 [6.9<E, D, S>, 6.7<B, A, S>]
+			B	 [6.7<B, A, S>, 3.0<F, E, D, S>]
+			F	 [3.0<F, E, D, S>, 4.0<C, B, A, S>]
+			C	 [4.0<C, B, A, S>, 0.0<G, F, E, D, S>]
+			G	 [0.0<G, F, E, D, S>]
+Goal reached!
+
