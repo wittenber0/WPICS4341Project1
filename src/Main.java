@@ -3,7 +3,18 @@
  */
 public class Main {
     public static void main(String[] args){
-	    Searcher searcher = new Searcher(new Graph(args[0]));
-	    searcher.generalSearch();
+	    Graph graphFromFile = new Graph(args[0]);
+	    Searcher searcher = Searcher.getInstance();
+	    Node initial = graphFromFile.getStartNode();
+	
+	    searcher.generalSearch(initial, SearchType.DEPTHFIRST);
+	    searcher.generalSearch(initial, SearchType.BREADTHFIRST);
+	    searcher.generalSearch(initial, SearchType.DEPTHLIMITED);
+	    searcher.generalSearch(initial, SearchType.ITERATIVEDEEPENING);
+	    searcher.generalSearch(initial, SearchType.UNIFORMCOST);
+	    searcher.generalSearch(initial, SearchType.GREEDY);
+	    searcher.generalSearch(initial, SearchType.ASTAR);
+	    searcher.generalSearch(initial, SearchType.HILLCLIMBING);
+	    searcher.generalSearch(initial, SearchType.BEAM);
     }
 }

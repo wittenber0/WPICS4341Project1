@@ -1,46 +1,92 @@
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.Set;
 
 /**
  * Created by Ryan on 9/1/2017.
  */
+
+enum SearchType {
+	DEPTHFIRST, DEPTHLIMITED, ITERATIVEDEEPENING, BREADTHFIRST, ASTAR, GREEDY, HILLCLIMBING, BEAM, UNIFORMCOST
+}
+
 class Searcher {
-	private Graph graph;
 	
-	Searcher(Graph graph) {
-		setGraph(graph);
+	private static Searcher instance = null;
+	
+	private Searcher() {
 	}
 	
-	void setGraph(Graph graph) {
-		this.graph = graph;
+	static Searcher getInstance() {
+		if (instance == null) {
+			instance = new Searcher();
+		}
+		return instance;
 	}
 	
-	void generalSearch() {
-		System.out.println("Running General Search: \n");
-		depthFirst();
-		breadthFirst();
-		depthLimited(2);
-		iterativeDeepening();
-		uniformCost();
-		greedy();
-		aStar();
-		hillClimbing();
-		beam(2);
-	}
-	
-	private boolean depthFirstHelper(int limit) {
+	Path generalSearch(Node initialState, SearchType method) {
+		
+		printSearchHeader(method);
+		
 		Path successPath = null;
+		
+		int depthLimit = -1;
 		boolean droppedPath = false;
+		
+		int beamDepth = 0;
+		LinkedList<Path> beamPruningList;
+		
+		switch(method) {
+			case ITERATIVEDEEPENING:
+				depthLimit = 0;
+				System.out.println("L = 0");
+				break;
+			case DEPTHLIMITED:
+				depthLimit = 2;
+				break;
+			default:
+				break;
+		}
 		
 		LinkedList<Path> queue = new LinkedList<>();
 		LinkedList<Node> visited = new LinkedList<>();
 		
-		queue.add(new Path(graph.getStartNode()));
+		switch(method) {
+			case BREADTHFIRST:
+			case DEPTHFIRST:
+			case DEPTHLIMITED:
+			case ITERATIVEDEEPENING:
+				queue.add(new Path(initialState));
+				break;
+			case UNIFORMCOST:
+				queue.add(new Path(0, initialState));
+				break;
+			case ASTAR:
+			case BEAM:
+			case GREEDY:
+			case HILLCLIMBING:
+				queue.add(new Path(initialState.heuristic, initialState));
+		}
 		printQueue(queue);
 		
-		while (!queue.isEmpty()) {
+		while (true) {
+			if (queue.isEmpty()) {
+				if (droppedPath && (method == SearchType.ITERATIVEDEEPENING)) {
+					depthLimit += 1;
+					
+					queue = new LinkedList<>();
+					visited = new LinkedList<>();
+					queue.add(new Path(initialState));
+					
+					System.out.print("\nL = ");
+					System.out.println(depthLimit);
+					printQueue(queue);
+					continue;
+				} else {
+					break;
+				}
+			}
+			
 			Path pathToExpand = queue.removeFirst();
 			Node nodeToExpand = pathToExpand.getNextNode();
 			
@@ -49,327 +95,123 @@ class Searcher {
 				break;
 			}
 			
-			if (limit >= 0 && pathToExpand.getDepth() >= limit) {
+			if (depthLimit >= 0 && pathToExpand.getDepth() >= depthLimit) {
 				droppedPath = true;
 				printQueue(queue);
 				continue;
 			}
 			
 			visited.add(nodeToExpand);
-			Set<Node> neighbors = nodeToExpand.neighbors.keySet();
+			HashMap<Node, Double> neighborCosts = nodeToExpand.neighbors;
 			LinkedList<Path> pathsToAdd = new LinkedList<>();
 			
-			for (Node neighbor : neighbors) {
+			for (Node neighbor : neighborCosts.keySet()) {
 				if (!visited.contains(neighbor)) {
-					pathsToAdd.add(new Path(pathToExpand, neighbor));
-				}
-			}
-			Collections.sort(pathsToAdd);
-			queue.addAll(0, pathsToAdd);
-			printQueue(queue);
-		}
-		
-		if (successPath != null) {
-			System.out.println("Goal reached!\n");
-			return true;
-		} else {
-			System.out.println("Goal not reached.\n");
-			return !droppedPath;
-		}
-	}
-	
-	void depthFirst() {
-		System.out.println("Depth-First Search");
-		depthFirstHelper(-1);
-	}
-	
-	void depthLimited(int limit) {
-		System.out.print("Depth-Limited Search (l = ");
-		System.out.print(limit);
-		System.out.print(")\n");
-		depthFirstHelper(2);
-	}
-	
-	void iterativeDeepening() {
-		int limit = 0;
-		String limitMessage = "L = ";
-		
-		System.out.println("Iterative Deepening Search");
-		System.out.print(limitMessage);
-		System.out.println(limit);
-		
-		while (!depthFirstHelper(limit)) {
-			limit += 1;
-			System.out.print(limitMessage);
-			System.out.println(limit);
-		}
-	}
-	
-	void breadthFirst() {
-		System.out.println("Breadth-First Search");
-		Path successPath = null;
-		
-		LinkedList<Path> queue = new LinkedList<>();
-		LinkedList<Node> visited = new LinkedList<>();
-		
-		queue.add(new Path(graph.getStartNode()));
-		printQueue(queue);
-		
-		while (!queue.isEmpty()) {
-			Path pathToExpand = queue.removeFirst();
-			Node nodeToExpand = pathToExpand.getNextNode();
-			
-			if (nodeToExpand.isGoal()) {
-				successPath = pathToExpand;
-				break;
-			}
-			
-			visited.add(nodeToExpand);
-			Set<Node> neighbors = nodeToExpand.neighbors.keySet();
-			LinkedList<Path> pathsToAdd = new LinkedList<>();
-			
-			for (Node neighbor : neighbors) {
-				if (!visited.contains(neighbor)) {
-					pathsToAdd.add(new Path(pathToExpand, neighbor));
+					switch(method) {
+						case DEPTHFIRST:
+						case DEPTHLIMITED:
+						case BREADTHFIRST:
+						case ITERATIVEDEEPENING:
+							pathsToAdd.add(new Path(pathToExpand, neighbor));
+							break;
+						case HILLCLIMBING:
+						case GREEDY:
+						case BEAM:
+							pathsToAdd.add(new Path(pathToExpand, neighbor.heuristic, neighbor));
+							break;
+						case ASTAR:
+							pathsToAdd.add(new Path(pathToExpand, pathToExpand.value - nodeToExpand.heuristic + neighborCosts.get(neighbor) + neighbor.heuristic, neighbor));
+							break;
+						case UNIFORMCOST:
+							pathsToAdd.add(new Path(pathToExpand, pathToExpand.value + neighborCosts.get(neighbor), neighbor));
+							break;
+					}
 				}
 			}
 			
 			Collections.sort(pathsToAdd);
-			queue.addAll(pathsToAdd);
-			printQueue(queue);
-		}
-		
-		if (successPath != null) {
-			System.out.println("Goal reached!\n");
-		} else {
-			System.out.println("Goal not reached.\n");
-		}
-	}
-	
-	void uniformCost() {
-		System.out.println("Uniform Cost Search");
-		Path successPath = null;
-		
-		LinkedList<Path> queue = new LinkedList<>();
-		LinkedList<Node> visited = new LinkedList<>();
-		
-		queue.add(new Path(0, graph.getStartNode()));
-		printQueue(queue);
-		
-		while (!queue.isEmpty()) {
-			Path pathToExpand = queue.removeFirst();
-			Node nodeToExpand = pathToExpand.getNextNode();
+			queue = addToQueue(queue, pathsToAdd, method);
 			
-			if (nodeToExpand.isGoal()) {
-				successPath = pathToExpand;
-				break;
-			}
-			
-			visited.add(nodeToExpand);
-			HashMap<Node, Double> neighbors = nodeToExpand.neighbors;
-			
-			for (Node neighbor : neighbors.keySet()) {
-				if (!visited.contains(neighbor)) {
-					queue.add(new Path(pathToExpand, pathToExpand.value + neighbors.get(neighbor), neighbor));
-				}
-			}
-			
-			Collections.sort(queue);
-			printQueue(queue);
-		}
-		
-		if (successPath != null) {
-			System.out.println("Goal reached!\n");
-		} else {
-			System.out.println("Goal not reached.\n");
-		}
-	}
-	
-	void greedy() {
-		System.out.println("Greedy Search");
-		Path successPath = null;
-		
-		LinkedList<Path> queue = new LinkedList<>();
-		LinkedList<Node> visited = new LinkedList<>();
-		
-		Node start = graph.getStartNode();
-		queue.add(new Path(start.heuristic, start));
-		printQueue(queue);
-		
-		while (!queue.isEmpty()) {
-			Path pathToExpand = queue.removeFirst();
-			Node nodeToExpand = pathToExpand.getNextNode();
-			
-			if (nodeToExpand.isGoal()) {
-				successPath = pathToExpand;
-				break;
-			}
-			
-			visited.add(nodeToExpand);
-			Set<Node> neighbors = nodeToExpand.neighbors.keySet();
-			
-			for (Node neighbor : neighbors) {
-				if (!visited.contains(neighbor)) {
-					queue.add(new Path(pathToExpand, neighbor.heuristic, neighbor));
-				}
-			}
-			
-			Collections.sort(queue);
-			printQueue(queue);
-		}
-		
-		if (successPath != null) {
-			System.out.println("Goal reached!\n");
-		} else {
-			System.out.println("Goal not reached.\n");
-		}
-	}
-	
-	void aStar() {
-		System.out.println("A* Search");
-		Path successPath = null;
-		
-		LinkedList<Path> queue = new LinkedList<>();
-		LinkedList<Node> visited = new LinkedList<>();
-		
-		Node start = graph.getStartNode();
-		queue.add(new Path(start.heuristic, start));
-		printQueue(queue);
-		
-		while (!queue.isEmpty()) {
-			Path pathToExpand = queue.removeFirst();
-			Node nodeToExpand = pathToExpand.getNextNode();
-			
-			if (nodeToExpand.isGoal()) {
-				successPath = pathToExpand;
-				break;
-			}
-			
-			visited.add(nodeToExpand);
-			HashMap<Node, Double> neighbors = nodeToExpand.neighbors;
-			double oldPathCost = pathToExpand.value - nodeToExpand.heuristic;
-			double newPathValue;
-			
-			for (Node neighbor : neighbors.keySet()) {
-				if (!visited.contains(neighbor)) {
-					newPathValue = oldPathCost + neighbors.get(neighbor) + neighbor.heuristic;
-					queue.add(new Path(pathToExpand, newPathValue, neighbor));
-				}
-			}
-			
-			Collections.sort(queue);
-			printQueue(queue);
-		}
-		
-		if (successPath != null) {
-			System.out.println("Goal reached!\n");
-		} else {
-			System.out.println("Goal not reached.\n");
-		}
-	}
-	
-	void hillClimbing() {
-		System.out.println("Hill Climbing Search");
-		Path successPath = null;
-		
-		LinkedList<Path> queue = new LinkedList<>();
-		LinkedList<Node> visited = new LinkedList<>();
-		
-		Node start = graph.getStartNode();
-		queue.add(new Path(start.heuristic, start));
-		printQueue(queue);
-		
-		while (!queue.isEmpty()) {
-			Path pathToExpand = queue.removeFirst();
-			Node nodeToExpand = pathToExpand.getNextNode();
-			
-			if (nodeToExpand.isGoal()) {
-				successPath = pathToExpand;
-				break;
-			}
-			
-			visited.add(nodeToExpand);
-			Set<Node> neighbors = nodeToExpand.neighbors.keySet();
-			LinkedList<Path> children = new LinkedList<>();
-			
-			for (Node neighbor : neighbors) {
-				if (!visited.contains(neighbor)) {
-					children.add(new Path(pathToExpand, neighbor.heuristic, neighbor));
-				}
-			}
-			if (!children.isEmpty()) {
-				Collections.sort(children);
-				queue.addFirst(children.getFirst());
-			}
-			printQueue(queue);
-		}
-		
-		if (successPath != null) {
-			System.out.println("Goal reached!\n");
-		} else {
-			System.out.println("Goal not reached.\n");
-		}
-	}
-	
-	void beam(int limit) {
-		System.out.print("Beam Search (w = ");
-		System.out.print(limit);
-		System.out.print(")\n");
-		
-		Path successPath = null;
-		int currentDepth = 0;
-		
-		LinkedList<Path> queue = new LinkedList<>();
-		LinkedList<Node> visited = new LinkedList<>();
-		LinkedList<Path> pruningList;
-		
-		Node start = graph.getStartNode();
-		queue.add(new Path(start.heuristic, start));
-		printQueue(queue);
-		
-		while (!queue.isEmpty()) {
-			Path pathToExpand = queue.removeFirst();
-			Node nodeToExpand = pathToExpand.getNextNode();
-			
-			if (nodeToExpand.isGoal()) {
-				successPath = pathToExpand;
-				break;
-			}
-			
-			visited.add(nodeToExpand);
-			Set<Node> neighbors = nodeToExpand.neighbors.keySet();
-			
-			for (Node neighbor : neighbors) {
-				if (!visited.contains(neighbor)) {
-					queue.add(new Path(pathToExpand, neighbor.heuristic, neighbor));
-				}
-			}
-			
-			if (queue.getFirst().getDepth() > currentDepth) {
-				currentDepth += 1;
+			if (method == SearchType.BEAM && queue.getFirst().getDepth() > beamDepth) {
+				beamDepth += 1;
 				
-				if (queue.size() > limit) {
-					pruningList = new LinkedList<>();
-					pruningList.addAll(queue);
-					Collections.sort(pruningList);
-					
-					for (int i = 0; i < limit; i++) {
-						pruningList.removeFirst();
-					}
-					
-					for (Path pathToPrune : pruningList) {
-						queue.remove(pathToPrune);
-					}
-				}
+				beamPruningList = new LinkedList<>();
+				beamPruningList.addAll(queue);
+				Collections.sort(beamPruningList);
+				
+				beamPruningList.removeFirst();
+				beamPruningList.removeFirst();
+				
+				queue.removeAll(beamPruningList);
 			}
+			
 			printQueue(queue);
 		}
 		
-		if (successPath != null) {
-			System.out.println("Goal reached!\n");
+		if (successPath == null) {
+			System.out.println("Goal could not be reached.\n");
 		} else {
-			System.out.println("Goal not reached.\n");
+			System.out.println("Goal reached!\n");
 		}
+		
+		return successPath;
+	}
+	
+	private void printSearchHeader(SearchType method) {
+		String message = "";
+		switch(method) {
+			case ASTAR:
+				message = message.concat("A* Search: ");
+				break;
+			case BEAM:
+				message = message.concat("Beam Search (w = 2):");
+				break;
+			case BREADTHFIRST:
+				message = message.concat("Breadth-First Search: ");
+				break;
+			case DEPTHFIRST:
+				message = message.concat("Depth-First Search: ");
+				break;
+			case DEPTHLIMITED:
+				message = message.concat("Depth-Limited Search (l = 2): ");
+				break;
+			case GREEDY:
+				message = message.concat("Greedy Search: ");
+				break;
+			case HILLCLIMBING:
+				message = message.concat("Hill Climbing Search: ");
+				break;
+			case ITERATIVEDEEPENING:
+				message = message.concat("Iterative Deepening Search: ");
+				break;
+			case UNIFORMCOST:
+				message = message.concat("Uniform-Cost Search: ");
+		}
+		System.out.println(message);
+	}
+	
+	private LinkedList<Path> addToQueue(LinkedList<Path> queue, LinkedList<Path> pathsToAdd, SearchType method) {
+		switch(method) {
+			case DEPTHFIRST:
+			case DEPTHLIMITED:
+			case ITERATIVEDEEPENING:
+				queue.addAll(0, pathsToAdd);
+				break;
+			case BREADTHFIRST:
+			case BEAM:
+				queue.addAll(pathsToAdd);
+				break;
+			case ASTAR:
+			case GREEDY:
+			case UNIFORMCOST:
+				queue.addAll(pathsToAdd);
+				Collections.sort(queue);
+				break;
+			case HILLCLIMBING:
+				queue.add(pathsToAdd.getFirst());
+				break;
+		}
+		return queue;
 	}
 	
 	private void printQueue(LinkedList<Path> queue) {
@@ -389,3 +231,6 @@ class Searcher {
 		}
 	}
 }
+
+
+
