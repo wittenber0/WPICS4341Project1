@@ -24,7 +24,7 @@ class Searcher {
 		return instance;
 	}
 	
-	Path generalSearch(Node initialState, SearchType method) {
+	Path General_Search(Node initialState, SearchType method) {
 		
 		printSearchHeader(method);
 		

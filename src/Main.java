@@ -7,14 +7,14 @@ public class Main {
 	    Searcher searcher = Searcher.getInstance();
 	    Node initial = graphFromFile.getStartNode();
 	
-	    searcher.generalSearch(initial, SearchType.DEPTHFIRST);
-	    searcher.generalSearch(initial, SearchType.BREADTHFIRST);
-	    searcher.generalSearch(initial, SearchType.DEPTHLIMITED);
-	    searcher.generalSearch(initial, SearchType.ITERATIVEDEEPENING);
-	    searcher.generalSearch(initial, SearchType.UNIFORMCOST);
-	    searcher.generalSearch(initial, SearchType.GREEDY);
-	    searcher.generalSearch(initial, SearchType.ASTAR);
-	    searcher.generalSearch(initial, SearchType.HILLCLIMBING);
-	    searcher.generalSearch(initial, SearchType.BEAM);
+	    searcher.General_Search(initial, SearchType.DEPTHFIRST);
+	    searcher.General_Search(initial, SearchType.BREADTHFIRST);
+	    searcher.General_Search(initial, SearchType.DEPTHLIMITED);
+	    searcher.General_Search(initial, SearchType.ITERATIVEDEEPENING);
+	    searcher.General_Search(initial, SearchType.UNIFORMCOST);
+	    searcher.General_Search(initial, SearchType.GREEDY);
+	    searcher.General_Search(initial, SearchType.ASTAR);
+	    searcher.General_Search(initial, SearchType.HILLCLIMBING);
+	    searcher.General_Search(initial, SearchType.BEAM);
     }
 }
